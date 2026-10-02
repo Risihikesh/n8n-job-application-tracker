@@ -1,579 +1,6 @@
 {
-  "name": "Job Application Tracker",
+  "name": "Job Applications Tracker",
   "nodes": [
-    {
-      "parameters": {
-        "pollTimes": {
-          "item": [
-            {
-              "mode": "everyMinute"
-            }
-          ]
-        },
-        "simple": false,
-        "filters": {},
-        "options": {}
-      },
-      "type": "n8n-nodes-base.gmailTrigger",
-      "typeVersion": 1.4,
-      "position": [
-        656,
-        -240
-      ],
-      "id": "d637eeee-2a8f-49e4-a417-568560931c1b",
-      "name": "Gmail Trigger",
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "N6lehIlJkgzlofLN",
-          "name": "Gmail account"
-        }
-      },
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "f4f72c42-0208-4510-88e7-fc6a27a6f248",
-              "name": "emailSubject",
-              "value": "={{ $json.subject }}",
-              "type": "string"
-            },
-            {
-              "id": "968ce8e5-d57b-4aad-b09e-35acd379d5a1",
-              "name": "sender",
-              "value": "={{ $json.from.text }}",
-              "type": "string"
-            },
-            {
-              "id": "a5c1c050-c4ae-4fc5-9fc3-42f849c8f4fa",
-              "name": "emailDate",
-              "value": "={{ $json.date }}",
-              "type": "string"
-            },
-            {
-              "id": "4760610b-c4a2-4f9a-b1e6-b7272726e435",
-              "name": "emailHtml",
-              "value": "={{ $json.html }}",
-              "type": "string"
-            },
-            {
-              "id": "964d8b7c-de0c-4c33-9065-9c2fa8e18790",
-              "name": "emailBody",
-              "value": "={{ $('If3').item.json.snippet }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.5,
-      "position": [
-        896,
-        0
-      ],
-      "id": "650af784-00de-4d32-9db4-e202472a413b",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "mode": "url",
-          "value": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit?gid=0#gid=0",
-          "__regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Job",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit#gid=0"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Email Subject": "={{ $('Edit Fields').item.json.emailSubject }}",
-            "Notes": "={{ $('Edit Fields').item.json.emailBody }}",
-            "Position": "={{ $('Edit Fields1').item.json.parsed.position }}",
-            "Status": "={{ $('Edit Fields1').item.json.parsed.status }}",
-            "Company": "={{ $('Edit Fields1').item.json.parsed.company }}",
-            "Source": "={{ $('Edit Fields1').item.json.parsed.source }}",
-            "Job URL": "={{ $('Edit Fields1').item.json.parsed.jobUrl }}",
-            "Applied Date": "={{ $('Edit Fields1').item.json.parsed.appliedDate }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Company",
-              "displayName": "Company",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Position",
-              "displayName": "Position",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Source",
-              "displayName": "Source",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Applied Date",
-              "displayName": "Applied Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Status",
-              "displayName": "Status",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Job URL",
-              "displayName": "Job URL",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Email Subject",
-              "displayName": "Email Subject",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Notes",
-              "displayName": "Notes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        2352,
-        -64
-      ],
-      "id": "df502c10-4691-4bde-947a-82d2928f09fb",
-      "name": "Append row in sheet",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "yiIXFCVUkfV1URaM",
-          "name": "Google Sheets account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "models/gemini-3.5-flash-lite",
-          "mode": "list",
-          "cachedResultName": "models/gemini-3.5-flash-lite"
-        },
-        "messages": {
-          "values": [
-            {
-              "content": "=You are a job application email classifier and data extractor.\n\nAnalyze the email carefully and extract information only from the provided email subject, email body, email HTML, sender, and email date.\n\nIMPORTANT:\nThe EMAIL HTML may contain information that is not present in the plain-text EMAIL BODY. Always inspect the HTML when company name, position, source, or job URL is missing or unclear.\n\nCLASSIFICATION\n\nClassify the email into exactly one of these three types:\n\n1. NEW_APPLICATION\n\nUse NEW_APPLICATION when the email confirms that the user submitted a job application or that the employer received the application.\n\nExamples:\n- Thank you for applying\n- We received your application\n- Your application has been submitted\n- Application received\n- Thank you for your application\n- Your application was successfully submitted\n- Application submitted\n- Your application for this position has been received\n\n2. APPLICATION_UPDATE\n\nUse APPLICATION_UPDATE only when the email is a later-stage update about an application that was already submitted.\n\nExamples:\n- You have been shortlisted\n- Interview invitation\n- Interview scheduled\n- Assessment request\n- Technical assessment\n- Recruiter wants to speak with you\n- Screening\n- Rejected\n- Application rejected\n- Offer\n- Application moved to another stage\n- Withdrawn\n\n3. NOT_JOB_RELATED\n\nUse NOT_JOB_RELATED for:\n- Job recommendations\n- Job alerts\n- Job search alerts\n- Newsletters\n- Promotional emails\n- Suggested jobs\n- \"Jobs you may like\"\n- Job digests\n- Generic recruiter advertisements\n- Recruiter messages that are not clearly related to an application already submitted\n- Emails unrelated to a job application\n\nIMPORTANT:\nDo not classify an email as NEW_APPLICATION merely because it contains a job vacancy or job recommendation.\n\n--------------------------------------------------\nCOMPANY EXTRACTION\n--------------------------------------------------\n\nExtract the actual hiring/employer company name.\n\nLook carefully in ALL available information:\n\n- Email subject\n- Email body\n- Email HTML\n- Sender name\n- Application details\n- Job title section\n- Location section\n- Greeting\n- Signature\n- Sent-to-employer statements\n- Text surrounding the job title\n\nThe company may appear:\n- Immediately below the job title\n- Before or after the location\n- In the application details\n- In a sentence describing where the application was sent\n- In the signature\n- Inside HTML elements such as <a>, <strong>, <b>, <h1>, <h2>, <p>, <td>, etc.\n\nIMPORTANT HTML RULE:\n\nThe EMAIL HTML can contain employer information that is missing from the plain-text EMAIL BODY.\n\nWhen extracting the company:\n\n1. Check the EMAIL BODY first.\n2. If the company is missing or unclear, inspect the EMAIL HTML.\n3. Search the HTML for visible company/employer names near the job title and location.\n4. Inspect visible text inside HTML tags.\n5. Inspect links (<a href=\"...\">) and their visible text.\n6. Do not assume that the email platform is the employer.\n7. If the company appears anywhere in the HTML, use that company.\n\nFor Indeed emails:\n\n- Carefully inspect the area around the job title and location.\n- The employer name may appear immediately below the position title.\n- The employer name may only be visible in the HTML.\n- Do NOT use \"Indeed\" as the company.\n- \"Indeed\" is the job platform, not the employer, unless Indeed itself is explicitly the employer.\n\nFor LinkedIn:\n\n- Do NOT use \"LinkedIn\" as the company unless LinkedIn itself is explicitly the employer.\n\nFor Naukri:\n\n- Do NOT use \"Naukri\" as the company unless Naukri itself is explicitly the employer.\n\nFor Glassdoor:\n\n- Do NOT use \"Glassdoor\" as the company unless Glassdoor itself is explicitly the employer.\n\nIf the company name appears anywhere in the email body or HTML, extract it.\n\nIf the company genuinely cannot be determined, return an empty string.\n\nDo not invent a company name.\n\n--------------------------------------------------\nPOSITION EXTRACTION\n--------------------------------------------------\n\nExtract the exact job position or role.\n\nLook for phrases such as:\n\n- position\n- role\n- job\n- applying for\n- application for\n- you applied for\n- application received for\n- job title\n\nAlso inspect the HTML around the job title.\n\nExamples:\n\n\"Thank you for applying for the React Developer position at ABC Technologies.\"\n\ncompany = \"ABC Technologies\"\nposition = \"React Developer\"\n\nIf the subject says:\n\n\"Indeed Application: Full Stack Engineer\"\n\nposition = \"Full Stack Engineer\"\n\nIf the HTML displays:\n\nFull Stack Engineer\nAcheron Software Consultancy Pvt Ltd\nHyderabad\n\nthen:\n\nposition = \"Full Stack Engineer\"\ncompany = \"Acheron Software Consultancy Pvt Ltd\"\n\nDo not invent the position.\n\n--------------------------------------------------\nSOURCE DETECTION\n--------------------------------------------------\n\nIdentify where the application originated.\n\nUse exactly one of these values when identifiable:\n\n- Indeed\n- LinkedIn\n- Naukri\n- Glassdoor\n- Company Website\n- Recruiter\n- Other\n\nSource detection rules:\n\n- Indeed / Indeed Apply / indeed.com → \"Indeed\"\n- LinkedIn / linkedin.com → \"LinkedIn\"\n- Naukri / naukri.com → \"Naukri\"\n- Glassdoor / glassdoor.com → \"Glassdoor\"\n- Application received directly from a company's own website, career portal, or ATS → \"Company Website\"\n- Application confirmation from a recruiter/person → \"Recruiter\"\n- Application from another identifiable job platform → \"Other\"\n- If the source cannot be determined → \"\"\n\nDo not confuse the source/platform with the hiring company.\n\nExample:\n\nSender:\nIndeed Apply <indeedapply@indeed.com>\n\nEmployer:\nABC Technologies\n\nResult:\n\ncompany = \"ABC Technologies\"\nsource = \"Indeed\"\n\n--------------------------------------------------\nSTATUS\n--------------------------------------------------\n\nFor NEW_APPLICATION:\n\nstatus = \"Applied\"\n\nFor APPLICATION_UPDATE:\n\nUse the appropriate status when clearly indicated:\n\n- Screening\n- Interview\n- Offer\n- Rejected\n- Withdrawn\n\nIf the update does not clearly indicate a status, return \"\".\n\nDo not invent a status.\n\n--------------------------------------------------\nAPPLIED DATE\n--------------------------------------------------\n\nFor NEW_APPLICATION:\n\n1. If the email explicitly states the application/submission date, use that date.\n2. If the application date is not explicitly stated, use EMAIL DATE because the email confirms a newly submitted application.\n3. Return the date in YYYY-MM-DD format.\n\nFor APPLICATION_UPDATE:\n\n- Only use a date as appliedDate if the email clearly identifies it as the original application/submission date.\n- Do not automatically use the update email date as the application date.\n\nDo not invent dates.\n\n--------------------------------------------------\nJOB URL\n--------------------------------------------------\n\nExtract the actual job listing or job application URL when available.\n\nIMPORTANT HTML URL RULE:\n\nThe actual job URL may exist only inside the EMAIL HTML.\n\nWhen extracting jobUrl:\n\n1. Inspect all <a href=\"...\"> links in the EMAIL HTML.\n2. Look at the visible text associated with each link.\n3. Identify links associated with:\n   - the job title\n   - \"View Job\"\n   - \"View application\"\n   - \"Job details\"\n   - the employer/job listing\n   - the application page\n4. Prefer the actual employer job page or actual job application page.\n5. If a platform URL redirects to an actual employer/ATS job page, extract the actual destination when it is clearly available in the URL.\n6. Do not extract unrelated links.\n\nDO NOT use:\n\n- Indeed confirmation URLs\n- Indeed Apply confirmation URLs\n- Indeed contact-us URLs\n- Confirmation-email URLs\n- Unsubscribe URLs\n- Tracking URLs\n- Privacy-policy URLs\n- Generic homepage URLs\n- Generic platform URLs\n- Social media URLs\n\nDo not use URLs containing paths such as:\n\n- /confirmemail/\n- /contactus\n- /unsubscribe\n- /privacy\n\nIf the email contains a URL such as:\n\nhttps://apply.indeed.com/indeedapply/confirmemail/...\n\ndo NOT automatically use it as jobUrl.\n\nInstead, inspect the HTML and determine whether that URL contains a destination parameter such as:\n\n- next=\n- redirect=\n- redirectUrl=\n- returnUrl=\n- target=\n- url=\n\nIf such a parameter clearly contains the actual employer job/application URL, extract that destination URL.\n\nIf the parameter only points to a confirmation/contact page, do not use it.\n\nIf the email contains only a confirmation URL and no actual job listing/application URL, return:\n\n\"jobUrl\": \"\"\n\nDo not invent a URL.\n\n--------------------------------------------------\nHTML INTERPRETATION RULES\n--------------------------------------------------\n\nThe EMAIL HTML may contain:\n\n- employer names\n- job titles\n- locations\n- job URLs\n- application URLs\n- platform information\n- tracking links\n- unsubscribe links\n- privacy links\n- decorative content\n\nOnly use meaningful visible job/application information.\n\nWhen inspecting HTML:\n\n- Treat visible text as useful information.\n- Treat href values as possible URLs.\n- Ignore CSS, JavaScript, tracking pixels, styling, and decorative HTML.\n- Do not mistake image filenames, CSS classes, IDs, or HTML attributes for company names.\n- Do not extract an email platform's generic URL as the job URL.\n- Do not treat \"Indeed\", \"LinkedIn\", \"Naukri\", or \"Glassdoor\" as the employer merely because they appear in the HTML.\n- If multiple company names appear, prefer the company directly associated with the job title/application.\n- If multiple URLs appear, prefer the URL directly associated with the job title or application.\n\n--------------------------------------------------\nIMPORTANT DATA RULES\n--------------------------------------------------\n\n- Use only information contained in the email subject, email body, email HTML, sender, and email date.\n- Do not use outside knowledge to guess missing information.\n- Do not invent company names.\n- Do not invent job positions.\n- Do not invent dates.\n- Do not invent URLs.\n- If information genuinely cannot be determined, return an empty string.\n- Always return valid JSON.\n- Do not return Markdown.\n- Do not return explanations.\n- Do not return comments.\n- Do not include additional fields.\n\n--------------------------------------------------\nOUTPUT FORMAT\n--------------------------------------------------\n\nReturn ONLY valid JSON in exactly this format:\n\n{\n  \"type\": \"\",\n  \"company\": \"\",\n  \"position\": \"\",\n  \"source\": \"\",\n  \"status\": \"\",\n  \"appliedDate\": \"\",\n  \"jobUrl\": \"\"\n}\n\n--------------------------------------------------\nEMAIL DATA\n--------------------------------------------------\n\nEMAIL SUBJECT:\n{{ $json.emailSubject }}\n\nEMAIL BODY:\n{{ $json.emailBody }}\n\nEMAIL HTML:\n{{ $json.emailHtml }}\n\nSENDER:\n{{ $json.sender }}\n\nEMAIL DATE:\n{{ $json.emailDate }}"
-            }
-          ]
-        },
-        "jsonOutput": true,
-        "builtInTools": {},
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.googleGemini",
-      "typeVersion": 1.2,
-      "position": [
-        1120,
-        0
-      ],
-      "id": "12a91690-1993-4d90-9d25-2bd381c538dc",
-      "name": "Message a model",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "MCkFleU9mwDICQ1J",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ae8f8205-5955-4511-a93d-dbb745627ec3",
-              "name": "parsed",
-              "value": "={{ JSON.parse($json.content.parts[0].text) }}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.5,
-      "position": [
-        1504,
-        0
-      ],
-      "id": "57f36ec5-1d7a-4a78-a2ea-c5e3f3ce003a",
-      "name": "Edit Fields1"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "a44e7778-c6c8-4b64-bd9d-8046b29b0236",
-              "leftValue": "={{ $json.parsed.type }}",
-              "rightValue": "NEW_APPLICATION",
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        1728,
-        0
-      ],
-      "id": "ce431f5f-c86e-4a72-bef5-ae0f21e66b62",
-      "name": "If"
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit?gid=0#gid=0",
-          "mode": "url"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Job",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit#gid=0"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "Company",
-              "lookupValue": "={{ $json.parsed.company }}"
-            },
-            {
-              "lookupColumn": "Position",
-              "lookupValue": "={{ $json.parsed.position }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        1936,
-        -80
-      ],
-      "id": "44261035-d98d-4a7f-8126-e0cd5ff5cf90",
-      "name": "Get row(s) in sheet",
-      "alwaysOutputData": true,
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "yiIXFCVUkfV1URaM",
-          "name": "Google Sheets account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "4a60f9ee-67eb-4c78-84f1-58c851a3583b",
-              "leftValue": "={{ $json.row_number }}",
-              "rightValue": 0,
-              "operator": {
-                "type": "number",
-                "operation": "gt"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        2128,
-        -80
-      ],
-      "id": "3af57eb2-b59c-48e9-a223-a816d9794afc",
-      "name": "If1"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "39ed1994-b994-44c9-97cb-86c1dd558e54",
-              "leftValue": "={{ $json.parsed.type }}",
-              "rightValue": "APPLICATION_UPDATE",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        1936,
-        144
-      ],
-      "id": "214f8941-9d11-4e30-a223-53283bf7d171",
-      "name": "If2"
-    },
-    {
-      "parameters": {
-        "documentId": {
-          "__rl": true,
-          "value": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit?gid=0#gid=0",
-          "mode": "url"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Job",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit#gid=0"
-        },
-        "filtersUI": {
-          "values": [
-            {
-              "lookupColumn": "Company",
-              "lookupValue": "={{ $json.parsed.company }}"
-            },
-            {
-              "lookupColumn": "Position",
-              "lookupValue": "={{ $json.parsed.position }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        2128,
-        128
-      ],
-      "id": "98375ab5-aca6-4a42-932a-3549040e7e73",
-      "name": "Get row(s) in sheet1",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "yiIXFCVUkfV1URaM",
-          "name": "Google Sheets account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "operation": "update",
-        "documentId": {
-          "__rl": true,
-          "value": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit?gid=0#gid=0",
-          "mode": "url"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Job",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit#gid=0"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Company": "={{ $json.Company }}",
-            "Status": "={{ $('Edit Fields1').item.json.parsed.status }}"
-          },
-          "matchingColumns": [
-            "Company"
-          ],
-          "schema": [
-            {
-              "id": "Company",
-              "displayName": "Company",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Position",
-              "displayName": "Position",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Source",
-              "displayName": "Source",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Applied Date",
-              "displayName": "Applied Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Status",
-              "displayName": "Status",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Job URL",
-              "displayName": "Job URL",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Email Subject",
-              "displayName": "Email Subject",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Notes",
-              "displayName": "Notes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "row_number",
-              "displayName": "row_number",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "number",
-              "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.7,
-      "position": [
-        2336,
-        128
-      ],
-      "id": "3d8b8a73-43c2-4051-a90d-4952b7cd2cef",
-      "name": "Update row in sheet",
-      "credentials": {
-        "googleSheetsOAuth2Api": {
-          "id": "yiIXFCVUkfV1URaM",
-          "name": "Google Sheets account"
-        }
-      }
-    },
     {
       "parameters": {
         "rule": {
@@ -588,10 +15,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.4,
       "position": [
-        -16,
-        0
+        -5600,
+        2576
       ],
-      "id": "25b7cc35-291c-4b23-a527-0face7ead9bb",
+      "id": "d65662d8-9443-4be9-93d2-19260060eac8",
       "name": "Schedule Trigger"
     },
     {
@@ -604,12 +31,12 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        208,
-        0
+        -5376,
+        2576
       ],
-      "id": "3e4288f9-05ec-4613-afa0-eaf417f59fa6",
+      "id": "ed415c1e-e2a1-4a54-bc05-e5c9a70f1d1e",
       "name": "Get many messages",
-      "webhookId": "27d91f4a-c128-4b15-97da-7800ad1bb82f",
+      "webhookId": "9a02dd67-da70-434c-8e8d-e4433adeffc7",
       "credentials": {
         "gmailOAuth2": {
           "id": "N6lehIlJkgzlofLN",
@@ -645,10 +72,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        432,
-        0
+        -5136,
+        2576
       ],
-      "id": "35672933-e431-44de-981f-164774b19498",
+      "id": "556f904b-69e6-491a-be45-3d9c91a98ba2",
       "name": "If3"
     },
     {
@@ -661,16 +88,240 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        672,
-        0
+        -4912,
+        2576
       ],
-      "id": "78ed53d2-8d53-42bd-bca4-358b405a5d8d",
+      "id": "8f52f1b0-3853-41b7-927c-b697c38cebaa",
       "name": "Get a message",
-      "webhookId": "8e91df57-4e5e-4935-8045-3519b9738011",
+      "webhookId": "a217a5ef-1f24-40d9-98db-ed2e25921a75",
       "credentials": {
         "gmailOAuth2": {
           "id": "N6lehIlJkgzlofLN",
           "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f4f72c42-0208-4510-88e7-fc6a27a6f248",
+              "name": "emailSubject",
+              "value": "={{ $json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "968ce8e5-d57b-4aad-b09e-35acd379d5a1",
+              "name": "sender",
+              "value": "={{ $json.from.text }}",
+              "type": "string"
+            },
+            {
+              "id": "a5c1c050-c4ae-4fc5-9fc3-42f849c8f4fa",
+              "name": "emailDate",
+              "value": "={{ $json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "4760610b-c4a2-4f9a-b1e6-b7272726e435",
+              "name": "emailHtml",
+              "value": "={{ $json.html }}",
+              "type": "string"
+            },
+            {
+              "id": "964d8b7c-de0c-4c33-9065-9c2fa8e18790",
+              "name": "emailBody",
+              "value": "={{ $('If3').item.json.snippet }}",
+              "type": "string"
+            },
+            {
+              "id": "3bba0ddb-d59c-4db7-b273-c3aed4a6efc5",
+              "name": "gmailMessageId",
+              "value": "={{ $('Get a message').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "9d19a774-2018-43f1-a916-fc94053a25f8",
+              "name": "gmailThreadId",
+              "value": "={{ $('Get a message').item.json.threadId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -4688,
+        2576
+      ],
+      "id": "03872017-ebb7-4ee6-86fe-11bbb147010a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3.5-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3.5-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a job application email classifier and data extractor.\n\nAnalyze the email carefully and extract information only from the provided email subject, email body, email HTML, sender, and email date.\n\nIMPORTANT:\nThe EMAIL HTML may contain information that is not present in the plain-text EMAIL BODY. Always inspect the HTML when company name, position, source, or job URL is missing or unclear.\n\nCLASSIFICATION\n\nClassify the email into exactly one of these three types:\n\n1. NEW_APPLICATION\n\nUse NEW_APPLICATION when the email confirms that the user submitted a job application or that the employer received the application.\n\nExamples:\n- Thank you for applying\n- We received your application\n- Your application has been submitted\n- Application received\n- Thank you for your application\n- Your application was successfully submitted\n- Application submitted\n- Your application for this position has been received\n\n2. APPLICATION_UPDATE\n\nUse APPLICATION_UPDATE only when the email is a later-stage update about an application that was already submitted.\n\nExamples:\n- You have been shortlisted\n- Interview invitation\n- Interview scheduled\n- Assessment request\n- Technical assessment\n- Recruiter wants to speak with you\n- Screening\n- Rejected\n- Application rejected\n- Offer\n- Application moved to another stage\n- Withdrawn\n\n3. NOT_JOB_RELATED\n\nUse NOT_JOB_RELATED for:\n- Job recommendations\n- Job alerts\n- Job search alerts\n- Newsletters\n- Promotional emails\n- Suggested jobs\n- \"Jobs you may like\"\n- Job digests\n- Generic recruiter advertisements\n- Recruiter messages that are not clearly related to an application already submitted\n- Emails unrelated to a job application\n\nIMPORTANT:\nDo not classify an email as NEW_APPLICATION merely because it contains a job vacancy or job recommendation.\n\n--------------------------------------------------\nCOMPANY EXTRACTION\n--------------------------------------------------\n\nExtract the actual hiring/employer company name.\n\nLook carefully in ALL available information:\n\n- Email subject\n- Email body\n- Email HTML\n- Sender name\n- Application details\n- Job title section\n- Location section\n- Greeting\n- Signature\n- Sent-to-employer statements\n- Text surrounding the job title\n\nThe company may appear:\n- Immediately below the job title\n- Before or after the location\n- In the application details\n- In a sentence describing where the application was sent\n- In the signature\n- Inside HTML elements such as <a>, <strong>, <b>, <h1>, <h2>, <p>, <td>, etc.\n\nIMPORTANT HTML RULE:\n\nThe EMAIL HTML can contain employer information that is missing from the plain-text EMAIL BODY.\n\nWhen extracting the company:\n\n1. Check the EMAIL BODY first.\n2. If the company is missing or unclear, inspect the EMAIL HTML.\n3. Search the HTML for visible company/employer names near the job title and location.\n4. Inspect visible text inside HTML tags.\n5. Inspect links (<a href=\"...\">) and their visible text.\n6. Do not assume that the email platform is the employer.\n7. If the company appears anywhere in the HTML, use that company.\n\nFor Indeed emails:\n\n- Carefully inspect the area around the job title and location.\n- The employer name may appear immediately below the position title.\n- The employer name may only be visible in the HTML.\n- Do NOT use \"Indeed\" as the company.\n- \"Indeed\" is the job platform, not the employer, unless Indeed itself is explicitly the employer.\n\nFor LinkedIn:\n\n- Do NOT use \"LinkedIn\" as the company unless LinkedIn itself is explicitly the employer.\n\nFor Naukri:\n\n- Do NOT use \"Naukri\" as the company unless Naukri itself is explicitly the employer.\n\nFor Glassdoor:\n\n- Do NOT use \"Glassdoor\" as the company unless Glassdoor itself is explicitly the employer.\n\nIf the company name appears anywhere in the email body or HTML, extract it.\n\nIf the company genuinely cannot be determined, return an empty string.\n\nDo not invent a company name.\n\n--------------------------------------------------\nPOSITION EXTRACTION\n--------------------------------------------------\n\nExtract the exact job position or role.\n\nLook for phrases such as:\n\n- position\n- role\n- job\n- applying for\n- application for\n- you applied for\n- application received for\n- job title\n\nAlso inspect the HTML around the job title.\n\nExamples:\n\n\"Thank you for applying for the React Developer position at ABC Technologies.\"\n\ncompany = \"ABC Technologies\"\nposition = \"React Developer\"\n\nIf the subject says:\n\n\"Indeed Application: Full Stack Engineer\"\n\nposition = \"Full Stack Engineer\"\n\nIf the HTML displays:\n\nFull Stack Engineer\nAcheron Software Consultancy Pvt Ltd\nHyderabad\n\nthen:\n\nposition = \"Full Stack Engineer\"\ncompany = \"Acheron Software Consultancy Pvt Ltd\"\n\nDo not invent the position.\n\n--------------------------------------------------\nSOURCE DETECTION\n--------------------------------------------------\n\nIdentify where the application originated.\n\nUse exactly one of these values when identifiable:\n\n- Indeed\n- LinkedIn\n- Naukri\n- Glassdoor\n- Company Website\n- Recruiter\n- Other\n\nSource detection rules:\n\n- Indeed / Indeed Apply / indeed.com → \"Indeed\"\n- LinkedIn / linkedin.com → \"LinkedIn\"\n- Naukri / naukri.com → \"Naukri\"\n- Glassdoor / glassdoor.com → \"Glassdoor\"\n- Application received directly from a company's own website, career portal, or ATS → \"Company Website\"\n- Application confirmation from a recruiter/person → \"Recruiter\"\n- Application from another identifiable job platform → \"Other\"\n- If the source cannot be determined → \"\"\n\nDo not confuse the source/platform with the hiring company.\n\nExample:\n\nSender:\nIndeed Apply <indeedapply@indeed.com>\n\nEmployer:\nABC Technologies\n\nResult:\n\ncompany = \"ABC Technologies\"\nsource = \"Indeed\"\n\n--------------------------------------------------\nSTATUS\n--------------------------------------------------\n\nFor NEW_APPLICATION:\n\nstatus = \"Applied\"\n\nFor APPLICATION_UPDATE:\n\nUse the appropriate status when clearly indicated:\n\n- Screening\n- Interview\n- Offer\n- Rejected\n- Withdrawn\n\nIf the update does not clearly indicate a status, return \"\".\n\nDo not invent a status.\n\n--------------------------------------------------\nAPPLIED DATE\n--------------------------------------------------\n\nFor NEW_APPLICATION:\n\n1. If the email explicitly states the application/submission date, use that date.\n2. If the application date is not explicitly stated, use EMAIL DATE because the email confirms a newly submitted application.\n3. Return the date in YYYY-MM-DD format.\n\nFor APPLICATION_UPDATE:\n\n- Only use a date as appliedDate if the email clearly identifies it as the original application/submission date.\n- Do not automatically use the update email date as the application date.\n\nDo not invent dates.\n\n--------------------------------------------------\nJOB URL\n--------------------------------------------------\n\nExtract the actual job listing or job application URL when available.\n\nIMPORTANT HTML URL RULE:\n\nThe actual job URL may exist only inside the EMAIL HTML.\n\nWhen extracting jobUrl:\n\n1. Inspect all <a href=\"...\"> links in the EMAIL HTML.\n2. Look at the visible text associated with each link.\n3. Identify links associated with:\n   - the job title\n   - \"View Job\"\n   - \"View application\"\n   - \"Job details\"\n   - the employer/job listing\n   - the application page\n4. Prefer the actual employer job page or actual job application page.\n5. If a platform URL redirects to an actual employer/ATS job page, extract the actual destination when it is clearly available in the URL.\n6. Do not extract unrelated links.\n\nDO NOT use:\n\n- Indeed confirmation URLs\n- Indeed Apply confirmation URLs\n- Indeed contact-us URLs\n- Confirmation-email URLs\n- Unsubscribe URLs\n- Tracking URLs\n- Privacy-policy URLs\n- Generic homepage URLs\n- Generic platform URLs\n- Social media URLs\n\nDo not use URLs containing paths such as:\n\n- /confirmemail/\n- /contactus\n- /unsubscribe\n- /privacy\n\nIf the email contains a URL such as:\n\nhttps://apply.indeed.com/indeedapply/confirmemail/...\n\ndo NOT automatically use it as jobUrl.\n\nInstead, inspect the HTML and determine whether that URL contains a destination parameter such as:\n\n- next=\n- redirect=\n- redirectUrl=\n- returnUrl=\n- target=\n- url=\n\nIf such a parameter clearly contains the actual employer job/application URL, extract that destination URL.\n\nIf the parameter only points to a confirmation/contact page, do not use it.\n\nIf the email contains only a confirmation URL and no actual job listing/application URL, return:\n\n\"jobUrl\": \"\"\n\nDo not invent a URL.\n\n--------------------------------------------------\nHTML INTERPRETATION RULES\n--------------------------------------------------\n\nThe EMAIL HTML may contain:\n\n- employer names\n- job titles\n- locations\n- job URLs\n- application URLs\n- platform information\n- tracking links\n- unsubscribe links\n- privacy links\n- decorative content\n\nOnly use meaningful visible job/application information.\n\nWhen inspecting HTML:\n\n- Treat visible text as useful information.\n- Treat href values as possible URLs.\n- Ignore CSS, JavaScript, tracking pixels, styling, and decorative HTML.\n- Do not mistake image filenames, CSS classes, IDs, or HTML attributes for company names.\n- Do not extract an email platform's generic URL as the job URL.\n- Do not treat \"Indeed\", \"LinkedIn\", \"Naukri\", or \"Glassdoor\" as the employer merely because they appear in the HTML.\n- If multiple company names appear, prefer the company directly associated with the job title/application.\n- If multiple URLs appear, prefer the URL directly associated with the job title or application.\n\n--------------------------------------------------\nIMPORTANT DATA RULES\n--------------------------------------------------\n\n- Use only information contained in the email subject, email body, email HTML, sender, and email date.\n- Do not use outside knowledge to guess missing information.\n- Do not invent company names.\n- Do not invent job positions.\n- Do not invent dates.\n- Do not invent URLs.\n- If information genuinely cannot be determined, return an empty string.\n- Always return valid JSON.\n- Do not return Markdown.\n- Do not return explanations.\n- Do not return comments.\n- Do not include additional fields.\n\n--------------------------------------------------\nOUTPUT FORMAT\n--------------------------------------------------\n\nReturn ONLY valid JSON in exactly this format:\n\n{\n  \"type\": \"\",\n  \"company\": \"\",\n  \"position\": \"\",\n  \"source\": \"\",\n  \"status\": \"\",\n  \"appliedDate\": \"\",\n  \"jobUrl\": \"\"\n}\n\n--------------------------------------------------\nEMAIL DATA\n--------------------------------------------------\n\nEMAIL SUBJECT:\n{{ $json.emailSubject }}\n\nEMAIL BODY:\n{{ $json.emailBody }}\n\nEMAIL HTML:\n{{ $json.emailHtml }}\n\nSENDER:\n{{ $json.sender }}\n\nEMAIL DATE:\n{{ $json.emailDate }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        -4480,
+        2576
+      ],
+      "id": "43dbbf88-44f0-48e8-adb7-ef6f502e8947",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "MCkFleU9mwDICQ1J",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Job",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Company",
+              "displayName": "Company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Position",
+              "displayName": "Position",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Source",
+              "displayName": "Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Applied Date",
+              "displayName": "Applied Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Job URL",
+              "displayName": "Job URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email Subject",
+              "displayName": "Email Subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "action",
+              "displayName": "action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -3152,
+        2464
+      ],
+      "id": "32d51a23-ab3e-4293-888a-f912d4e0216e",
+      "name": "Append Application",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "yiIXFCVUkfV1URaM",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -692,18 +343,16 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Email Subject": "={{ $json[\"Email Subject\"] }}",
-            "Company": "={{ $('Edit Fields1').item.json.parsed.company || $json.Company }}",
-            "Position": "={{ $('Edit Fields1').item.json.parsed.position || $json.Position }}",
-            "Source": "={{ $('Edit Fields1').item.json.parsed.source || $json.Source }}",
-            "Applied Date": "={{ $('Edit Fields1').item.json.parsed.appliedDate || $json[\"Applied Date\"] }}",
-            "Status": "={{ $('Edit Fields1').item.json.parsed.status || $json.Status }}",
-            "Job URL": "={{ $('Edit Fields1').item.json.parsed.jobUrl || $json[\"Job URL\"] }}",
-            "Notes": "={{ $('Edit Fields').item.json.emailBody || $json.Notes }}"
+            "Company": "={ $json['Company'] }",
+            "Position": "={ $json['Position'] }",
+            "Source": "={ $json['Source'] }",
+            "Applied Date": "={ $json['Applied Date'] }",
+            "Status": "={ $json['Status'] }",
+            "Job URL": "={ $json['Job URL'] }",
+            "Email Subject": "={ $json['Email Subject'] }",
+            "Notes": "={ $json['Notes'] }",
+            "row_number": "={{ $json.row_number }}"
           },
-          "matchingColumns": [
-            "Email Subject"
-          ],
           "schema": [
             {
               "id": "Company",
@@ -766,8 +415,7 @@
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
               "id": "Notes",
@@ -786,151 +434,184 @@
               "display": true,
               "type": "number",
               "canBeUsedToMatch": true,
-              "readOnly": true,
-              "removed": true
+              "readOnly": true
             }
           ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
+          "matchingColumns": [
+            "row_number"
+          ]
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        2352,
-        -176
+        -2928,
+        2688
       ],
-      "id": "9a31f485-d9ea-4256-bb39-425e16310982",
-      "name": "Update row in sheet1",
+      "id": "81525c35-02b1-4652-adf9-db18e81c572f",
+      "name": "Update Application",
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "yiIXFCVUkfV1URaM",
           "name": "Google Sheets account"
         }
       }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const raw =\n  $json.content?.parts?.[0]?.text ??\n  $json.text ??\n  $json.output ??\n  $json.response ??\n  $json;\n\nlet ai;\n\nif (raw && typeof raw === 'object' && !Array.isArray(raw) && raw.type) {\n  ai = raw;\n} else {\n  const text = String(raw ?? '')\n    .replace(/^```json\\s*/i, '')\n    .replace(/^```\\s*/i, '')\n    .replace(/\\s*```$/i, '')\n    .trim();\n\n  try {\n    ai = JSON.parse(text);\n  } catch (error) {\n    return {\n      json: {\n        type: 'NOT_JOB_RELATED',\n        company: '',\n        position: '',\n        source: '',\n        status: '',\n        appliedDate: '',\n        jobUrl: '',\n        emailSubject: $('Edit Fields').item.json.emailSubject ?? '',\n        emailBody: $('Edit Fields').item.json.emailBody ?? '',\n        emailHtml: $('Edit Fields').item.json.emailHtml ?? '',\n        sender: $('Edit Fields').item.json.sender ?? '',\n        emailDate: $('Edit Fields').item.json.emailDate ?? '',\n        gmailMessageId: $('Edit Fields').item.json.gmailMessageId ?? '',\n        gmailThreadId: $('Edit Fields').item.json.gmailThreadId ?? '',\n        parseError: true,\n        parseErrorMessage: error.message,\n        rawAIResponse: text,\n      }\n    };\n  }\n}\n\nconst email = $('Edit Fields').item.json;\n\nreturn {\n  json: {\n    type: String(ai.type ?? '').trim(),\n    company: String(ai.company ?? '').trim(),\n    position: String(ai.position ?? '').trim(),\n    source: String(ai.source ?? '').trim(),\n    status: String(ai.status ?? '').trim(),\n    appliedDate: String(ai.appliedDate ?? '').trim(),\n    jobUrl: String(ai.jobUrl ?? '').trim(),\n    emailSubject: email.emailSubject ?? '',\n    emailBody: email.emailBody ?? '',\n    emailHtml: email.emailHtml ?? '',\n    sender: email.sender ?? '',\n    emailDate: email.emailDate ?? '',\n    gmailMessageId: email.gmailMessageId ?? '',\n    gmailThreadId: email.gmailThreadId ?? '',\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4160,
+        2576
+      ],
+      "id": "c8f9dd7d-aa50-41a4-9014-18d58e718c6a",
+      "name": "Parse AI Result",
+      "notes": "Parses Gemini JSON from content.parts[0].text and restores original email fields."
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Job",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ydLwGU7g0Rb-H4INPxcjseN8q5wKXd2XLqwyKGp2z08/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -4912,
+        2992
+      ],
+      "id": "dba630bc-eed2-4b4f-b388-80b1259bffcf",
+      "name": "Read Tracker Rows",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "yiIXFCVUkfV1URaM",
+          "name": "Google Sheets account"
+        }
+      },
+      "notes": "Reads the real 8-column Job sheet. No Application Key column is used."
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch"
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -3936,
+        2576
+      ],
+      "id": "f5e59543-bec3-4ecf-b8a5-3cd01c07daa7",
+      "name": "Wait for Tracker Rows"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const incoming = $json;\nconst rows = $('Read Tracker Rows').all().map(item => item.json);\n\nconst norm = (v) => String(v ?? '')\n  .trim()\n  .toLowerCase()\n  .replace(/\\s+/g, ' ');\n\nconst normUrl = (v) => norm(v).replace(/^https?:\\/\\//, '').replace(/\\/+$/, '');\n\nconst company = norm(incoming.company);\nconst position = norm(incoming.position);\nconst jobUrl = normUrl(incoming.jobUrl);\n\n// Ignore malformed/non-job AI results before touching the sheet.\nconst type = String(incoming.type ?? '').trim();\nif (!['NEW_APPLICATION', 'APPLICATION_UPDATE'].includes(type)) {\n  return { json: { action: 'skip', reason: 'not_job_related_or_invalid_ai', ...incoming } };\n}\n\n// A useful identity is URL when available, otherwise company + position.\n// Gmail IDs are deliberately not used because they aren't stored in your 8-column sheet.\nconst incomingKey = jobUrl\n  ? `url|${jobUrl}`\n  : (company && position ? `job|${company}|${position}` : '');\n\nif (!incomingKey) {\n  return { json: { action: 'skip', reason: 'missing_company_position_and_url', ...incoming } };\n}\n\nlet existing = null;\nlet existingRowNumber = 0;\n\nfor (const row of rows) {\n  const rowCompany = norm(row.Company);\n  const rowPosition = norm(row.Position);\n  const rowUrl = normUrl(row['Job URL']);\n\n  const sameUrl = jobUrl && rowUrl && jobUrl === rowUrl;\n  const sameCompanyPosition = company && position &&\n    company === rowCompany && position === rowPosition;\n\n  if (sameUrl || sameCompanyPosition) {\n    const rn = Number(row.row_number || 0);\n    if (!existing || rn > existingRowNumber) {\n      existing = row;\n      existingRowNumber = rn;\n    }\n  }\n}\n\nconst statusRank = (value) => {\n  const s = norm(value);\n  if (!s) return 0;\n  if (s.includes('withdraw')) return 6;\n  if (s.includes('reject')) return 6;\n  if (s.includes('offer')) return 6;\n  if (s.includes('hired')) return 7;\n  if (s.includes('assessment') || s.includes('screen')) return 2;\n  if (s.includes('interview')) return 4;\n  if (s.includes('shortlist')) return 3;\n  if (s.includes('applied') || s.includes('submitted') || s.includes('received')) return 1;\n  return 1;\n};\n\nconst incomingStatus = String(incoming.status ?? '').trim();\nconst existingStatus = String(existing?.Status ?? '').trim();\n\nconst base = {\n  Company: String(incoming.company ?? '').trim(),\n  Position: String(incoming.position ?? '').trim(),\n  Source: String(incoming.source ?? '').trim(),\n  'Applied Date': String(incoming.appliedDate ?? '').trim(),\n  Status: incomingStatus || 'Applied',\n  'Job URL': String(incoming.jobUrl ?? '').trim(),\n  'Email Subject': String(incoming.emailSubject ?? '').trim(),\n  Notes: String(incoming.emailBody ?? '').trim(),\n};\n\nif (!existing) {\n  if (type === 'APPLICATION_UPDATE') {\n    return { json: { action: 'skip', reason: 'update_without_existing_application', ...incoming } };\n  }\n\n  return {\n    json: {\n      action: 'append',\n      ...base,\n    }\n  };\n}\n\n// NEW_APPLICATION for an already-known job is a duplicate. Never overwrite a later status.\nif (type === 'NEW_APPLICATION') {\n  return {\n    json: {\n      action: 'skip',\n      reason: 'duplicate_application',\n      row_number: existingRowNumber,\n      existingStatus,\n      ...incoming,\n    }\n  };\n}\n\n// APPLICATION_UPDATE: update only if the new status is meaningful and does not regress the row.\nconst oldRank = statusRank(existingStatus);\nconst newRank = statusRank(incomingStatus);\n\nif (!incomingStatus || newRank < oldRank) {\n  return {\n    json: {\n      action: 'skip',\n      reason: 'empty_or_regressive_status',\n      row_number: existingRowNumber,\n      existingStatus,\n      incomingStatus,\n      ...incoming,\n    }\n  };\n}\n\nconst oldNotes = String(existing.Notes ?? '').trim();\nconst updateNote = [\n  incoming.emailSubject ? `Update: ${incoming.emailSubject}` : '',\n  incoming.emailBody ? incoming.emailBody : ''\n].filter(Boolean).join('\\n');\n\nconst mergedNotes = updateNote\n  ? (oldNotes ? `${oldNotes}\\n\\n${updateNote}` : updateNote)\n  : oldNotes;\n\nreturn {\n  json: {\n    action: 'update',\n    row_number: existingRowNumber,\n    Company: String(incoming.company ?? '').trim() || String(existing.Company ?? ''),\n    Position: String(incoming.position ?? '').trim() || String(existing.Position ?? ''),\n    Source: String(incoming.source ?? '').trim() || String(existing.Source ?? ''),\n    'Applied Date': String(incoming.appliedDate ?? '').trim() || String(existing['Applied Date'] ?? ''),\n    Status: incomingStatus,\n    'Job URL': String(incoming.jobUrl ?? '').trim() || String(existing['Job URL'] ?? ''),\n    'Email Subject': String(incoming.emailSubject ?? '').trim() || String(existing['Email Subject'] ?? ''),\n    Notes: mergedNotes,\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3712,
+        2576
+      ],
+      "id": "8650e4ee-2ea8-4ee2-aaa7-08a8796e050f",
+      "name": "Match & Decide",
+      "notes": "Duplicate: Job URL first, otherwise Company + Position. Updates existing row for later-stage status."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b3d032a0-2253-4c06-851a-aa996f42fdac",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "append",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -3488,
+        2576
+      ],
+      "id": "0784c3f3-da92-48dc-9ad4-938a0db2399a",
+      "name": "Is Append?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3b100a5a-51dd-40b4-bb8e-bb9b3364cf30",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "update",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -3152,
+        2688
+      ],
+      "id": "a5efa7b8-9e0c-4159-bd6c-ed5c0c09d9f4",
+      "name": "Is Update?"
     }
   ],
   "pinData": {},
   "connections": {
-    "Gmail Trigger": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "Message a model",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Message a model": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Edit Fields1": {
-      "main": [
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Get row(s) in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "If2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in sheet": {
-      "main": [
-        [
-          {
-            "node": "If1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If1": {
-      "main": [
-        [
-          {
-            "node": "Update row in sheet1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Append row in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If2": {
-      "main": [
-        [
-          {
-            "node": "Get row(s) in sheet1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get row(s) in sheet1": {
-      "main": [
-        [
-          {
-            "node": "Update row in sheet",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Schedule Trigger": {
       "main": [
         [
           {
             "node": "Get many messages",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read Tracker Rows",
             "type": "main",
             "index": 0
           }
@@ -969,6 +650,101 @@
           }
         ]
       ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Result": {
+      "main": [
+        [
+          {
+            "node": "Wait for Tracker Rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Tracker Rows": {
+      "main": [
+        [
+          {
+            "node": "Wait for Tracker Rows",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Wait for Tracker Rows": {
+      "main": [
+        [
+          {
+            "node": "Match & Decide",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Match & Decide": {
+      "main": [
+        [
+          {
+            "node": "Is Append?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Append?": {
+      "main": [
+        [
+          {
+            "node": "Append Application",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is Update?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Update?": {
+      "main": [
+        [
+          {
+            "node": "Update Application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -976,12 +752,12 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "bc4074ba-4b97-4f57-850a-f9ddc9644759",
+  "versionId": "e9514197-dbbe-4e69-8eda-4610f49c1dd1",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "1379068fd8665bce723625c65db1f498b0cb12de88199cbdfd207b1843b9b0e7"
   },
   "nodeGroups": [],
-  "id": "5NhicYxsvWEoJgIz",
+  "id": "2x1EmiVTzaT4vcZ8",
   "tags": []
 }
